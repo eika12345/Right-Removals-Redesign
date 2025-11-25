@@ -17,68 +17,114 @@
         }
 /*----------------------------------------------navbar------------------------------------------*/
 
-        .navbar {
-            position: sticky;
-            top: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 2rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 3rem;
-            z-index: 1000;
-            margin-bottom: 0;
-        }
+ .navbar {
+  position: sticky;
+  top: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  z-index: 1000;
+  margin-bottom: 0;
+}
 
-        .logo {
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
+/* LOGO */
+.logo { display:flex; align-items:center; text-decoration:none; }
+.logo img { height:40px; width:auto; }
 
-        .logo img {
-            height: 40px;
-            width: auto;
-        }
+/* NAV LINKS (make anchors inline-block so padding works) */
+.nav-links {
+  display:flex;
+  gap:2rem;
+  list-style:none;
+  align-items:center;
+  margin:0;
+  padding:0;
+}
 
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
+.nav-links li { margin:0; }
 
-        .nav-links a {
-            text-decoration: none;
-            color: var(--color-primary-blue-dark);
-            font-weight: 600;
-            font-size: 1.1rem;
-            padding: 0.5rem 0;
-            position: relative;
-            transition: color 0.3s ease;
-            text-align: center;
-        }
+/* IMPORTANT: display:inline-block so padding (vertical + horizontal) is applied */
+.nav-links a {
+  display: inline-block;
+  text-decoration: none;
+  color: var(--color-primary-blue-dark);
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.5rem 0;            /* base padding for normal links */
+  position: relative;
+  transition: color 0.25s ease, transform 0.15s ease;
+  line-height: 1;               /* keeps height predictable */
+}
 
-        .nav-links a:hover {
-            color: #667eea;
-        }
+/* Hover color */
+.nav-links a:hover { color: #667eea; }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: width 0.3s ease;
-        }
+/* The underline animation — moved slightly lower so it doesn't collide with padding */
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;                 /* <- moved down to avoid collision with padding */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: linear-gradient(135deg, #667eea 0%, #4b51a2 100%);
+  transition: width 0.25s ease;
+  pointer-events: none;
+}
+.nav-links a:hover::after { width: 100%; }
 
-        .nav-links a:hover::after {
-            width: 100%;
-        }
+/* ====== Free Quote button styling ====== */
+/* Use a selector that is at least as specific as .nav-links a */
+.nav-links a.free-quote,
+.nav-links .free-quote {
+  display: inline-block;              /* ensures padding works */
+  padding: 0.45rem 1rem;              /* desired padding — change as needed */
+  border-radius: 28px;
+  border: 2px solid var(--color-primary-blue-dark);
+  background: transparent;
+  color: var(--color-primary-blue-dark);
+  font-weight: 700;
+  box-sizing: border-box;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+}
+
+/* Option: make it a filled gradient on hover */
+.nav-links a.free-quote:hover {
+  background: linear-gradient(135deg, #2e449a 0%, #1d2a61 100%);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Accessibility / touch target — ensure minimum tappable size on mobile */
+.nav-links a.free-quote {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* MOBILE: ensure good spacing and full width if desired */
+@media (max-width: 480px) {
+  .nav-links {
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* make the Free Quote full width on very small screens (optional) */
+  .nav-links a.free-quote {
+    width: 100%;
+    max-width: 320px;
+    padding: 0.75rem 1rem;
+  }
+}
+      
 /*----------------------------------------------hero------------------------------------------*/
 
         .hero {
@@ -128,7 +174,7 @@
         }
 
         .content {
-            padding: 5rem 2rem 0 2rem;
+            padding: 5rem 2rem 5rem 2rem;
              color: var(--color-white);
             text-align: center;
             max-width: 800px;
@@ -138,6 +184,7 @@
         .content h2 {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
+            
         }
 
         .content p {
@@ -145,118 +192,252 @@
             line-height: 1.6;
             margin-bottom: 1.5rem;
         }
+
+        /* ------------------- Services Section ------------------- */
+.services-section {
+  padding: 5rem 2rem;
+  background: #f4f5f9;
+  color: var(--color-primary-blue-dark);
+  margin-bottom: 5em;
+}
+
+.services-container {
+  display: flex;
+  align-items: stretch; /* <-- makes both columns equal height */
+  gap: 3rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; /* allows stacking on smaller screens */
+}
+
+.services-text {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column; /* lets text blocks stack vertically */
+  justify-content: center; /* vertically center if text is short */
+}
+
+.services-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: #1d2a61;
+  text-align: center;
+}
+
+.services-text p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.services-text ul {
+  list-style: disc inside;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.services-text ul li {
+  margin-bottom: 0.75rem;
+}
+
+/* Images column */
+.services-images {
+  flex: 1 1 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.services-images img {
+  width: 100%;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  border: 3px solid var(--color-primary-blue-dark);
+}
+
+.services-images img:hover {
+  transform: scale(1.03);
+}
+
+
+@media (max-width: 768px) {
+  .services-container {
+    flex-direction: column; /* stack vertically */
+    gap: 2rem;
+  }
+
+  .services-text {
+    order: 1; /* ensure text is on top */
+    text-align: center;
+  }
+
+  .services-images {
+    order: 2; /* images below */
+    flex-direction: row; /* optional: display images side by side if small enough */
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .services-images img {
+    width: 100%; /* images full width on small screens */
+  }
+  .service-card p {}
+}
+
 /*----------------------------------------------reviews------------------------------------------*/
-        .reviews-section {
-            padding: 4rem 2rem;
-            color: #333;
-            text-align: center;
-        }
+    /*   .reviews-section {
+    padding: 4rem 2rem;
+    color: #333;
+    text-align: center;
+}
 
-        .reviews-section h2 {
-            font-size: 2.5rem;
-            margin-bottom: 2rem;
-            color: var(--color-white);
-        }
+.reviews-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--color-white);
+}
 
-        .google-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 1rem;
-            margin-bottom: 3rem;
-            background: #4285f4;
-            color: white;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.2rem;
-            text-decoration: none;
-            transition: transform 0.3s ease;
-            max-width: fit-content;
-            margin: 0 auto 3rem auto;
-        }
+.google-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    background: #4285f4;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    max-width: fit-content;
+    margin: 0 auto 3rem auto;
+}
 
-        .google-badge:hover {
-            transform: scale(1.05);
-        }
+.google-badge:hover {
+    transform: scale(1.05);
+}
 
-        .google-logo {
-            font-weight: bold;
-            font-size: 1.4rem;
-        }
+.google-logo {
+    font-weight: bold;
+    font-size: 1.4rem;
+}
 
-        .stars {
-            color: #fbbc05;
-            font-size: 1.5rem;
-            margin-right: 0.5rem;
-        }
+.stars {
+    color: #fbbc05;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+}
 
-        .reviews-container {
-            display: flex;
-            gap: 2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+.reviews-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+}
 
-        .review-card {
-            background: #f8f9fa;
-            border-radius: 15px;
-            padding: 2rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 350px;
-            text-align: left;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+.review-card {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 350px;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
 
-        .review-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
 
-        .review-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-            gap: 1rem;
-        }
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+}
 
-        .review-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
+.review-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
 
-        .review-info h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-            color: #333;
-        }
+.review-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.25rem;
+    color: #333;
+    white-space: normal;
+}
 
-        .review-info p {
-            font-size: 0.9rem;
-            color: #666;
-            margin: 0;
-        }
+.review-info p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+    white-space: normal;
+}
 
-        .review-stars {
-            color: #fbbc05;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
+.review-stars {
+    color: #fbbc05;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
 
-        .review-text {
-            color: #555;
-            line-height: 1.6;
-        }
+.review-text {
+    color: #555;
+    line-height: 1.6;
+    margin-top: 1rem;
+    overflow-wrap: break-word;
+}*/
+
+/*--------------------------------------------------------------
+# MOBILE FIXES
+--------------------------------------------------------------*/
+
+@media (max-width: 480px) {
+
+    .reviews-container {
+        flex-direction: column;
+        gap: 1.5rem;
+        width: 100%;
+        align-items: center;
+    }
+
+    .review-card {
+        max-width: 100%;
+        width: 100%;
+        padding: 1.5rem;
+    }
+
+    .review-header {
+        flex-wrap: nowrap;
+    }
+
+    .review-avatar {
+        min-width: 50px;
+        min-height: 50px;
+    }
+
+    .review-text {
+        font-size: 1rem;
+    }
+}
 /*----------------------------------------------footer------------------------------------------*/
 
         .footer {
@@ -386,14 +567,14 @@
                 font-size: 1.1rem;
                 padding: 0.8rem 2rem;
             }
-             .reviews-container {
+             /*.reviews-container {
                 gap: 1.5rem;
             }
             
             .review-card {
                 max-width: 100%;
                 padding: 1.5rem;
-            }
+            }*/
             
             .footer-container {
                 gap: 2rem;
@@ -432,19 +613,7 @@
             .content p {
                 font-size: 1.1rem;
             }
-             .reviews-section h2 {
-                font-size: 2rem;
-            }
-            
-            .google-badge {
-                font-size: 1rem;
-                padding: 0.8rem 1.5rem;
-            }
-            
-            .reviews-container {
-                flex-direction: column;
-                align-items: center;
-            }
+        }
             
             .footer-container {
                 grid-template-columns: 1fr;
@@ -454,4 +623,4 @@
             .contact-item {
                 justify-content: center;
             }
-        }
+        
