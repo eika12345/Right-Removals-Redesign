@@ -229,6 +229,10 @@
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
+.services-text h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+}
 
 .services-text ul {
   list-style: disc inside;
@@ -438,6 +442,111 @@
         font-size: 1rem;
     }
 }
+/* ------------------- Get in Touch Section ------------------- */
+.get-in-touch {
+  padding: 5rem 2rem;
+  color: #fff;
+}
+
+.get-in-touch-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 3rem;
+  flex-wrap: wrap; /* allow stacking on mobile */
+}
+
+/* Left text column */
+.contact-text {
+  flex: 1 1 400px;
+}
+
+.contact-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+.contact-text h3 {
+    margin-bottom: 1rem;
+}
+
+.contact-text p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.contact-info {
+    list-style: disc;       /* show bullets */
+    margin: 0 0 2rem 0;     /* directly below h3, remove auto-centering */
+    padding-left: 1.5rem;   /* standard indent for bullets */
+    color: #fff;
+    text-align: left;       /* aligns text to the left of bullets */
+    max-width: none;        /* remove width restriction on desktop */
+}
+
+.contact-info li {
+    font-size: 1.1rem;
+}
+
+/* Contact button */
+.contact-button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: white;
+  color: var(--color-primary-blue-dark);
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contact-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Right logo column */
+.contact-logo {
+  flex: 1 1 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-logo img {
+  max-width: 200px;
+  width: 100%;
+  height: auto;
+}
+
+/* ------------------- Responsive ------------------- */
+@media (max-width: 768px) {
+  .get-in-touch-container {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .contact-text h2 {
+    font-size: 2rem;
+  }
+
+  .contact-text p, .contact-info li {
+    font-size: 1.1rem;
+  }
+
+  .contact-logo img {
+    max-width: 150px;
+  }
+    .contact-info {
+        padding-left: 1rem;
+        margin: 0 auto 2rem;
+        text-align: center;
+    }
+}
+
 /*----------------------------------------------footer------------------------------------------*/
 
         .footer {
