@@ -129,7 +129,7 @@
 
         .hero {
             height: 100vh;
-            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/hero\ image\ smaller\ .jpg') center/cover no-repeat;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('../images/hero.jpg') center/cover no-repeat;
             background-repeat: no-repeat;
             background-attachment: fixed;
             display: flex;
