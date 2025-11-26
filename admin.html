@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <style>
+    body { font-family: Arial; max-width: 1200px; margin: 40px auto; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background: #f0f0f0; }
+    #login { margin-top: 20px; }
+    select, input { width: 100%; padding: 4px; }
+    button { cursor: pointer; padding: 6px 12px; margin-bottom: 10px; }
+    tr.new { background-color: #fffbe6; }
+    tr.confirmed { background-color: #e6f7ff; }
+    tr.completed { background-color: #e6ffe6; }
+  </style>
+</head>
+<body>
+
+<h2>Admin Dashboard — Moving Quotes</h2>
+
+<div id="login">
+  <label>Email: <input type="email" id="email" required></label>
+  <label>Password: <input type="password" id="password" required></label>
+  <button id="login-btn">Login</button>
+</div>
+
+<div id="quotes-table" style="display:none;">
+  <button id="logout-btn">Logout</button>
+  <table>
+    <thead>
+      <tr>
+        <th>Full Name</th><th>Email</th><th>Phone</th><th>Pickup</th><th>Dropoff</th>
+        <th>Move Date</th><th>Property Size</th><th>Floors</th><th>Stairs</th>
+        <th>Extra Services</th><th>Notes</th><th>Price</th><th>Status</th><th>Created At</th>
+      </tr>
+    </thead>
+    <tbody id="quotes-body"></tbody>
+  </table>
+</div>
+
+<script>
+  const SUPABASE_URL = "https://irxligciwqrctrkdhgdf.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyeGxpZ2Npd3FyY3Rya2RoZ2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNTMzNzEsImV4cCI6MjA3OTcyOTM3MX0.Hjw6KgfQmxuvoGnH4LxliVDFVXU2sJFzwWdOHhWs8rU";
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const loginDiv = document.getElementById("login");
+  const quotesDiv = document.getElementById("quotes-table");
+
+  // Login with Supabase Auth
+  document.getElementById("login-btn").addEventListener("click", async () => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (error) return alert("Login failed: " + error.message);
+
+    loginDiv.style.display = "none";
+    quotesDiv.style.display = "block";
+
+    loadQuotes();
+  });
+
+  // Logout
+  document.getElementById("logout-btn").addEventListener("click", async () => {
+    await supabaseClient.auth.signOut();
+    loginDiv.style.display = "block";
+    quotesDiv.style.display = "none";
+  });
+
+  // Load quotes and render table
+  async function loadQuotes() {
+    const { data, error } = await supabaseClient
+      .from("quotes")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) return alert("Failed to fetch quotes: " + error.message);
+
+    const tbody = document.getElementById("quotes-body");
+    tbody.innerHTML = "";
+
+    data.forEach(q => {
+      const row = document.createElement("tr");
+      row.className = q.status; // For visual highlights: new, confirmed, completed
+
+      row.innerHTML = `
+        <td>${q.full_name}</td>
+        <td>${q.email}</td>
+        <td>${q.phone}</td>
+        <td>${q.pickup_address}</td>
+        <td>${q.dropoff_address}</td>
+        <td>${q.move_date}</td>
+        <td>${q.property_size}</td>
+        <td>${q.floors_from} → ${q.floors_to}</td>
+        <td>${q.stairs}</td>
+        <td>${q.extra_services}</td>
+        <td><input type="text" class="notes-input" data-id="${q.id}" value="${q.notes || ''}"></td>
+        <td>£${q.price}</td>
+        <td>
+          <select data-id="${q.id}" class="status-select">
+            <option value="new" ${q.status === 'new' ? 'selected' : ''}>New</option>
+            <option value="confirmed" ${q.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+            <option value="completed" ${q.status === 'completed' ? 'selected' : ''}>Completed</option>
+          </select>
+        </td>
+        <td>${q.created_at}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  }
+
+  // Handle status and notes updates
+  document.addEventListener("change", async (e) => {
+    const target = e.target;
+    const quoteId = target.dataset.id;
+
+    if (target.classList.contains("status-select")) {
+      const newStatus = target.value;
+      const { error } = await supabaseClient
+        .from("quotes")
+        .update({ status: newStatus })
+        .eq("id", quoteId);
+
+      if (error) return alert("Failed to update status: " + error.message);
+      loadQuotes();
+    }
+
+    if (target.classList.contains("notes-input")) {
+      const newNotes = target.value;
+      const { error } = await supabaseClient
+        .from("quotes")
+        .update({ notes: newNotes })
+        .eq("id", quoteId);
+
+      if (error) return alert("Failed to update notes: " + error.message);
+    }
+  });
+</script>
+
+</body>
+</html>

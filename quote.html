@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Right Removals - Quote</title>
+  <meta name="description" content="25 years of moving experience" />
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/stylesheet.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="./images/right-removals-logo-updated.png">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #f4f5f9;
+      color: var(--color-primary-blue-dark);
+    }
+
+    h2 {
+      text-align: center;
+      margin: 2rem 0 2rem;
+    }
+
+    form {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .form-sections-container {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .form-section {
+      background: var(--color-primary-blue);
+      color: var(--color-white);
+      padding: 1.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+      flex: 1 1 45%;
+      min-width: 300px;
+    }
+
+    .form-section h3 {
+      margin-bottom: 1rem;
+      font-size: 1.6rem;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    textarea[name="extra_services"], textarea[name="notes"] {
+      resize: none;
+    }
+
+    .floors-container {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .floors-container div {
+      flex: 1 1 45%;
+    }
+
+    button.free-quote {
+     display: inline-block;
+     padding: 0.45rem 1rem;
+     border-radius: 28px;
+     border: 2px solid var(--color-primary-blue-dark);
+     background: transparent;
+     color: var(--color-primary-blue-dark);
+     font-weight: 700;
+     transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+     cursor: pointer;
+    }
+
+    button.free-quote:hover {
+    background: linear-gradient(135deg, #2e449a 0%, #1d2a61 100%);
+    color: #fff;
+    }
+
+    #quote-result {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f7e8;
+      color: #1d2a61;
+      font-weight: bold;
+      border-radius: 12px;
+      display: none;
+      text-align: center;
+      font-family: var(--font-body);
+    }
+
+    @media (max-width: 768px) {
+      .form-sections-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+
+    <!---------------------------------- navbar ------------------------------------>
+
+   <nav class="navbar">
+  <a href="#" class="logo">
+    <img src="/images/right-removals-logo-updated.png" alt="Company Logo">
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#" class="free-quote">Free Quote</a></li>
+  </ul>
+</nav>
+
+
+<form id="quote-form">
+    <h2>Get an Instant Moving Quote</h2>
+
+  <div class="form-sections-container">
+    <!-- Section 1: Contact Info -->
+    <div class="form-section">
+      <h3>Contact Information</h3>
+
+      <label>Full Name</label>
+      <input type="text" name="full_name" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Phone</label>
+      <input type="text" name="phone" required>
+
+      <label>Pickup Address</label>
+      <input type="text" name="pickup_address" required>
+
+      <label>Dropoff Address</label>
+      <input type="text" name="dropoff_address" required>
+    </div>
+
+    <!-- Section 2: Move Details -->
+    <div class="form-section">
+      <h3>Move Details</h3>
+
+      <label>Move Date</label>
+      <input type="date" name="move_date" required>
+
+      <label>Property Size (number of rooms)</label>
+      <input type="number" name="property_size" min="1" required>
+
+      <div class="floors-container">
+        <div>
+          <label>Floors From</label>
+          <input type="number" name="floors_from" min="0" required>
+        </div>
+        <div>
+          <label>Floors To</label>
+          <input type="number" name="floors_to" min="0" required>
+        </div>
+      </div>
+
+      <label>Stairs?</label>
+      <select name="stairs">
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+      </select>
+
+      <label>Extra Services (optional)</label>
+      <textarea name="extra_services"></textarea>
+
+      <label>Notes (optional)</label>
+      <textarea name="notes"></textarea>
+    </div>
+  </div>
+
+ <div style="text-align:center; margin-top:2rem;">
+  <button type="submit" class="free-quote">Get Quote</button>
+</div>
+</form>
+
+<div id="quote-result"></div>
+
+
+
+<script>
+  // keys
+  const SUPABASE_URL = "https://irxligciwqrctrkdhgdf.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyeGxpZ2Npd3FyY3Rya2RoZ2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNTMzNzEsImV4cCI6MjA3OTcyOTM3MX0.Hjw6KgfQmxuvoGnH4LxliVDFVXU2sJFzwWdOHhWs8rU";
+
+  // Initialize Supabase client
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // Price calculation function
+  function calculateQuote(data) {
+    const baseRate = 200;
+    const perRoom = Number(data.property_size) * 50;
+    const floorFactor = (Number(data.floors_to) - Number(data.floors_from)) * 20;
+    const stairsFee = data.stairs === "true" ? 40 : 0;
+    const extraServicesFee = data.extra_services ? 20 : 0;
+    return baseRate + perRoom + floorFactor + stairsFee + extraServicesFee;
+  }
+
+  // Form submission handler
+  document.getElementById("quote-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const form = new FormData(e.target);
+    const formData = Object.fromEntries(form.entries());
+
+    const price = calculateQuote(formData);
+
+    // Show price instantly
+    const resultDiv = document.getElementById("quote-result");
+    resultDiv.textContent = `Estimated price: £${price}`;
+    resultDiv.style.display = "block";
+
+    // Save quote to Supabase
+    const { error } = await supabaseClient.from("quotes").insert({
+      full_name: formData.full_name,
+      email: formData.email,
+      phone: formData.phone,
+      pickup_address: formData.pickup_address,
+      dropoff_address: formData.dropoff_address,
+      move_date: formData.move_date,
+      property_size: Number(formData.property_size),
+      floors_from: Number(formData.floors_from),
+      floors_to: Number(formData.floors_to),
+      stairs: formData.stairs === "true",
+      extra_services: formData.extra_services || "",
+      notes: formData.notes || "",
+      price: price,
+      status: "new"
+    });
+
+    if (error) {
+      console.error(error);
+      alert("Something went wrong while saving your quote.");
+    }
+  });
+</script>
+
+</body>
+</html>
