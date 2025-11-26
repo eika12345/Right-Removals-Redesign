@@ -722,7 +722,7 @@
             .content p {
                 font-size: 1.1rem;
             }
-        }
+       
             
             .footer-container {
                 grid-template-columns: 1fr;
@@ -732,4 +732,5 @@
             .contact-item {
                 justify-content: center;
             }
+             } 
         
