@@ -1,141 +1,360 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Right Removals - Log in</title>
+  <meta name="description" content="25 years of moving experience" />
+  <link rel="stylesheet" href="./css/variables.css" />
+  <link rel="stylesheet" href="./css/stylesheet.css" />
+  <link rel="shortcut icon" type="image/x-icon" href="./images/right-removals-logo-updated.png">
   <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
   <style>
-    body { font-family: Arial; max-width: 1200px; margin: 40px auto; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    th { background: #f0f0f0; }
-    #login { margin-top: 20px; }
-    select, input { width: 100%; padding: 4px; }
-    button { cursor: pointer; padding: 6px 12px; margin-bottom: 10px; }
-    tr.new { background-color: #fffbe6; }
-    tr.confirmed { background-color: #e6f7ff; }
-    tr.completed { background-color: #e6ffe6; }
+    /* -----------------------------------------------
+       Global Theme
+    ------------------------------------------------- */
+    @font-face {
+      font-family: "StackSans";
+      src: url("../fonts/StackSansHeadline-Medium.ttf") format("opentype");
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    body {
+      font-family: StackSans, Arial, sans-serif;
+      background: white;
+      color: white;
+      margin: 0;
+    }
+
+    body.logged-in .admin-card {
+      max-width: 1200px;   /* Expand admin card after login */
+      width: 95%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 30px;
+      font-weight: 700;
+      color: #1a243b;
+    }
+
+    /* -----------------------------------------------
+       Admin Card Container
+    ------------------------------------------------- */
+    .admin-card {
+      max-width: 450px;       /* Small for login */
+      margin: auto;
+      padding: 30px;
+      border-radius: 20px;
+      background-color: var(--color-primary-blue);
+      transition: max-width 0.4s ease;
+    }
+
+    /* -----------------------------------------------
+       Login Box
+    ------------------------------------------------- */
+    #login {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 350px;
+      margin: 0 auto 30px auto;
+      padding: 20px;
+      border-radius: 15px;
+      align-items: center;
+    }
+
+    label {
+      font-weight: 600;
+      width: 100%;
+    }
+
+    input, select {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      width: 100%;
+      background: rgba(255,255,255,0.9);
+      font-size: 1rem;
+    }
+body.logged-in .admin-card {
+  max-width: 1200px;
+  width: 95%;
+  height: auto;          /* allow full expansion */
+  overflow: visible;     /* prevent clipping */
+}
+    /* -----------------------------------------------
+       Login Button (unchanged style)
+    ------------------------------------------------- */
+    button {
+      display: inline-block;
+      padding: 0.45rem 1rem;
+      border-radius: 28px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      font-weight: 700;
+      transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+      cursor: pointer;
+      max-width: 100px;
+      font-family: StackSans;
+    }
+
+    button:hover {
+      background: white;
+      color: var(--color-primary-blue-dark);
+      transform: translateY(-2px);
+    }
+
+    /* -----------------------------------------------
+       Table Styling
+    ------------------------------------------------- */
+    #quotes-table {
+  overflow-x: auto;
+  width: 100%;
+  display: block;
+}
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: rgba(255,255,255,0.12);
+      border-radius: 15px;
+      overflow: hidden;
+    }table td, table th {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+/* If the table still gets too wide on mobile, allow scrolling */
+#quotes-table {
+  overflow-x: auto;
+} 
+
+    th {
+      background: rgba(0,0,0,0.15);
+      padding: 14px;
+      color: #fff;
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px;
+      color: #fff;
+      background: rgba(255,255,255,0.05);
+      font-size: 0.9rem;
+    }
+
+    tr:nth-child(even) {
+      background: rgba(0,0,0,0.1);
+    }
+
+    tr.new       { background-color: rgba(255, 255, 200, 0.25); }
+    tr.confirmed { background-color: rgba(150, 200, 255, 0.25); }
+    tr.completed { background-color: rgba(150, 255, 150, 0.25); }
+
+    .notes-input {
+      width: 140px;
+      padding: 6px;
+      border-radius: 6px;
+      border: none;
+      background: rgba(255,255,255,0.9);
+      font-size: 0.9rem;
+    }
+
+    .status-select {
+      padding: 6px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.9);
+      border: none;
+      font-size: 0.9rem;
+    }
+
+    /* -----------------------------------------------
+       Mobile Table
+    ------------------------------------------------- */
+    @media(max-width: 850px) {
+      table, thead, tbody, tr, td, th {
+        display: block;
+      }
+
+      th { display: none; }
+
+      tr {
+        margin-bottom: 15px;
+        padding: 10px;
+        border-radius: 15px;
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #ffe;
+      }
+    }
+
   </style>
 </head>
+
 <body>
 
-<h2>Admin Dashboard — Moving Quotes</h2>
+  <!---------------------------------- navbar -------------------------------------->
 
-<div id="login">
-  <label>Email: <input type="email" id="email" required></label>
-  <label>Password: <input type="password" id="password" required></label>
-  <button id="login-btn">Login</button>
+   <nav class="navbar">
+  <a href="index.html" class="logo">
+    <img src="./images/right-removals-logo-updated.png" alt="Company Logo">
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="admin.html">Log in</a></li>
+    <li><a href="quote.html" class="free-quote">Free Quote</a></li>
+  </ul>
+</nav>
+
+<h2>Admin Dashboard</h2>
+
+<div class="admin-card">
+
+  <!-- ---------------- LOGIN ---------------- -->
+  <div id="login">
+    <label>Email:<br><input type="email" id="email" required></label>
+    <label>Password:<br><input type="password" id="password" required></label>
+    <button id="login-btn">Log in</button>
+  </div>
+
+  <!-- ---------------- TABLE ---------------- -->
+  <div id="quotes-table" style="display:none;">
+    <button id="logout-btn" style="margin-bottom: 20px;">Logout</button>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Full Name</th><th>Email</th><th>Phone</th><th>Pickup</th><th>Dropoff</th>
+          <th>Move Date</th><th>Property Size</th><th>Floors</th><th>Stairs</th>
+          <th>Extras</th><th>Notes</th><th>Price</th><th>Status</th><th>Created</th>
+        </tr>
+      </thead>
+      <tbody id="quotes-body"></tbody>
+    </table>
+  </div>
+
 </div>
 
-<div id="quotes-table" style="display:none;">
-  <button id="logout-btn">Logout</button>
-  <table>
-    <thead>
-      <tr>
-        <th>Full Name</th><th>Email</th><th>Phone</th><th>Pickup</th><th>Dropoff</th>
-        <th>Move Date</th><th>Property Size</th><th>Floors</th><th>Stairs</th>
-        <th>Extra Services</th><th>Notes</th><th>Price</th><th>Status</th><th>Created At</th>
-      </tr>
-    </thead>
-    <tbody id="quotes-body"></tbody>
-  </table>
-</div>
-
+<!-- ------------------------------------------
+     SUPABASE + TABLE LOGIC
+------------------------------------------- -->
 <script>
   const SUPABASE_URL = "https://irxligciwqrctrkdhgdf.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyeGxpZ2Npd3FyY3Rya2RoZ2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNTMzNzEsImV4cCI6MjA3OTcyOTM3MX0.Hjw6KgfQmxuvoGnH4LxliVDFVXU2sJFzwWdOHhWs8rU";
+  const SUPABASE_ANON_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlyeGxpZ2Npd3FyY3Rya2RoZ2RmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQxNTMzNzEsImV4cCI6MjA3OTcyOTM3MX0.Hjw6KgfQmxuvoGnH4LxliVDFVXU2sJFzwWdOHhWs8rU";
+
   const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const loginDiv = document.getElementById("login");
   const quotesDiv = document.getElementById("quotes-table");
 
-  // Login with Supabase Auth
+  // LOGIN
   document.getElementById("login-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+    const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
     if (error) return alert("Login failed: " + error.message);
+
+    // Expand UI
+    document.body.classList.add("logged-in");
 
     loginDiv.style.display = "none";
     quotesDiv.style.display = "block";
-
     loadQuotes();
   });
 
-  // Logout
+  // LOGOUT
   document.getElementById("logout-btn").addEventListener("click", async () => {
     await supabaseClient.auth.signOut();
+
+    document.body.classList.remove("logged-in");
+
     loginDiv.style.display = "block";
     quotesDiv.style.display = "none";
   });
 
-  // Load quotes and render table
+  // LOAD QUOTES
   async function loadQuotes() {
     const { data, error } = await supabaseClient
       .from("quotes")
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) return alert("Failed to fetch quotes: " + error.message);
+    if (error) return alert("Failed to fetch quotes.");
 
     const tbody = document.getElementById("quotes-body");
     tbody.innerHTML = "";
 
     data.forEach(q => {
       const row = document.createElement("tr");
-      row.className = q.status; // For visual highlights: new, confirmed, completed
+      row.className = q.status;
 
       row.innerHTML = `
-        <td>${q.full_name}</td>
-        <td>${q.email}</td>
-        <td>${q.phone}</td>
-        <td>${q.pickup_address}</td>
-        <td>${q.dropoff_address}</td>
-        <td>${q.move_date}</td>
-        <td>${q.property_size}</td>
-        <td>${q.floors_from} → ${q.floors_to}</td>
-        <td>${q.stairs}</td>
-        <td>${q.extra_services}</td>
-        <td><input type="text" class="notes-input" data-id="${q.id}" value="${q.notes || ''}"></td>
-        <td>£${q.price}</td>
-        <td>
+        <td data-label="Full Name">${q.full_name}</td>
+        <td data-label="Email">${q.email}</td>
+        <td data-label="Phone">${q.phone}</td>
+        <td data-label="Pickup">${q.pickup_address}</td>
+        <td data-label="Dropoff">${q.dropoff_address}</td>
+        <td data-label="Move Date">${q.move_date}</td>
+        <td data-label="Property Size">${q.property_size}</td>
+        <td data-label="Floors">${q.floors_from} → ${q.floors_to}</td>
+        <td data-label="Stairs">${q.stairs}</td>
+        <td data-label="Extras">${q.extra_services}</td>
+
+        <td data-label="Notes">
+          <input type="text" class="notes-input" data-id="${q.id}" value="${q.notes || ''}">
+        </td>
+
+        <td data-label="Price">£${q.price}</td>
+
+        <td data-label="Status">
           <select data-id="${q.id}" class="status-select">
             <option value="new" ${q.status === 'new' ? 'selected' : ''}>New</option>
             <option value="confirmed" ${q.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
             <option value="completed" ${q.status === 'completed' ? 'selected' : ''}>Completed</option>
           </select>
         </td>
-        <td>${q.created_at}</td>
+
+        <td data-label="Created">${q.created_at}</td>
       `;
+
       tbody.appendChild(row);
     });
   }
 
-  // Handle status and notes updates
+  // UPDATE NOTES + STATUS
   document.addEventListener("change", async (e) => {
     const target = e.target;
-    const quoteId = target.dataset.id;
+    const id = target.dataset.id;
 
     if (target.classList.contains("status-select")) {
-      const newStatus = target.value;
-      const { error } = await supabaseClient
-        .from("quotes")
-        .update({ status: newStatus })
-        .eq("id", quoteId);
-
-      if (error) return alert("Failed to update status: " + error.message);
+      await supabaseClient.from("quotes").update({ status: target.value }).eq("id", id);
       loadQuotes();
     }
 
     if (target.classList.contains("notes-input")) {
-      const newNotes = target.value;
-      const { error } = await supabaseClient
-        .from("quotes")
-        .update({ notes: newNotes })
-        .eq("id", quoteId);
-
-      if (error) return alert("Failed to update notes: " + error.message);
+      await supabaseClient.from("quotes").update({ notes: target.value }).eq("id", id);
     }
   });
 </script>
