@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Right Removals - Quote</title>
+  <meta name="description" content="25 years of moving experience" />
+    <link rel="stylesheet" href="./css/variables.css" />
+    <link rel="stylesheet" href="./css/stylesheet.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="./images/right-removals-logo-updated.png">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    
+    <style>
+        /* ---------------- Contact Form  ---------------- */
+body {
+   background: #f4f5f9;
+}
+.rr-contact-form {
+  max-width: 600px;
+  margin: 3rem auto;
+  padding: 2.5rem;
+  background: var(--color-primary-blue);
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+}
+
+.rr-contact-form .form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.rr-contact-form label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.rr-contact-form input,
+.rr-contact-form textarea {
+  padding: 0.9rem 1.2rem;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.85);
+  color: #1d2a61;
+  font-family: var(--font-body);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.rr-contact-form input:focus,
+.rr-contact-form textarea:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 18px rgba(0,0,0,0.2);
+}
+
+.rr-contact-form textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.rr-submit-btn {
+  display: inline-block;
+      padding: 0.45rem 1rem;
+      border-radius: 28px;
+      border: 2px solid white;
+      background: transparent;
+      color: white;
+      font-weight: 700;
+      transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
+      cursor: pointer;
+      max-width: 100px;
+      font-family: StackSans;
+    }
+
+.rr-submit-btn:hover {
+   background: white;
+      color: var(--color-primary-blue-dark);
+      transform: translateY(-2px);
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .rr-contact-form {
+    padding: 1.5rem;
+    margin: 2rem 1rem;
+  }
+
+  .rr-submit-btn {
+    width: 100%;
+    text-align: center;
+    padding: 1rem 0;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+      <!---------------------------------- navbar -------------------------------------->
+
+   <nav class="navbar">
+  <a href="index.html" class="logo">
+    <img src="./images/right-removals-logo-updated.png" alt="Company Logo">
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="admin.html">Log in</a></li>
+    <li><a href="quote.html" class="free-quote">Free Quote</a></li>
+  </ul>
+</nav>
+
+<form class="rr-contact-form" action="https://api.web3forms.com/submit" method="POST">
+  <input type="hidden" name="access_key" value="b396dba7-0d2e-44d7-a5ab-94383eeed07e">
+
+  <div class="form-group">
+    <label>Your Name</label>
+    <input type="text" name="name" required>
+  </div>
+
+  <div class="form-group">
+    <label>Your Email</label>
+    <input type="email" name="email" required>
+  </div>
+
+  <div class="form-group">
+    <label>Your Message</label>
+    <textarea name="message" required></textarea>
+  </div>
+
+    
+<div style="text-align:center;">
+  <button type="submit" class="rr-submit-btn">Send Message</button>
+</div>
+
+</form>
+
+
+
+
+
+<script>
+</script>
+
+</body>
+</html>

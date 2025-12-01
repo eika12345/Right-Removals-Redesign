@@ -5,16 +5,17 @@
   font-style: normal;
 }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+ * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-        body {
-            font-family: var(--font-body);
-            background: linear-gradient(135deg, #2e449a 0%, #1d2a61 100%);
-        }
+ body {
+  font-family: var(--font-body);
+  background: linear-gradient(135deg, #2e449a 0%, #1d2a61 100%);
+ }
+
 /*----------------------------------------------navbar------------------------------------------*/
 
  .navbar {
@@ -32,11 +33,10 @@
   margin-bottom: 0;
 }
 
-/* LOGO */
+/* logo */
 .logo { display:flex; align-items:center; text-decoration:none; }
 .logo img { height:40px; width:auto; }
 
-/* NAV LINKS (make anchors inline-block so padding works) */
 .nav-links {
   display:flex;
   gap:2rem;
@@ -48,27 +48,25 @@
 
 .nav-links li { margin:0; }
 
-/* IMPORTANT: display:inline-block so padding (vertical + horizontal) is applied */
 .nav-links a {
   display: inline-block;
   text-decoration: none;
   color: var(--color-primary-blue-dark);
   font-weight: 600;
   font-size: 1.1rem;
-  padding: 0.5rem 0;            /* base padding for normal links */
+  padding: 0.5rem 0;            
   position: relative;
   transition: color 0.25s ease, transform 0.15s ease;
-  line-height: 1;               /* keeps height predictable */
+  line-height: 1;               
 }
 
-/* Hover color */
 .nav-links a:hover { color: #667eea; }
 
-/* The underline animation — moved slightly lower so it doesn't collide with padding */
+/* underline animation */
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: -6px;                 /* <- moved down to avoid collision with padding */
+  bottom: -6px;                
   left: 50%;
   transform: translateX(-50%);
   width: 0;
@@ -79,12 +77,11 @@
 }
 .nav-links a:hover::after { width: 100%; }
 
-/* ====== Free Quote button styling ====== */
-/* Use a selector that is at least as specific as .nav-links a */
+/* free quote button styling */
 .nav-links a.free-quote,
 .nav-links .free-quote {
-  display: inline-block;              /* ensures padding works */
-  padding: 0.45rem 1rem;              /* desired padding — change as needed */
+  display: inline-block;              
+  padding: 0.45rem 1rem;              
   border-radius: 28px;
   border: 2px solid var(--color-primary-blue-dark);
   background: transparent;
@@ -94,14 +91,12 @@
   transition: background 0.25s ease, color 0.25s ease, transform 0.15s ease;
 }
 
-/* Option: make it a filled gradient on hover */
 .nav-links a.free-quote:hover {
   background: linear-gradient(135deg, #2e449a 0%, #1d2a61 100%);
   color: #fff;
   transform: translateY(-2px);
 }
 
-/* Accessibility / touch target — ensure minimum tappable size on mobile */
 .nav-links a.free-quote {
   min-height: 40px;
   display: inline-flex;
@@ -109,7 +104,6 @@
   justify-content: center;
 }
 
-/* MOBILE: ensure good spacing and full width if desired */
 @media (max-width: 480px) {
   .nav-links {
     gap: 1rem;
@@ -117,7 +111,6 @@
     justify-content: center;
   }
 
-  /* make the Free Quote full width on very small screens (optional) */
   .nav-links a.free-quote {
     width: 100%;
     max-width: 320px;
@@ -203,18 +196,18 @@
 
 .services-container {
   display: flex;
-  align-items: stretch; /* <-- makes both columns equal height */
+  align-items: stretch; 
   gap: 3rem;
   max-width: 1200px;
   margin: 0 auto;
-  flex-wrap: wrap; /* allows stacking on smaller screens */
+  flex-wrap: wrap; 
 }
 
 .services-text {
   flex: 1 1 400px;
   display: flex;
-  flex-direction: column; /* lets text blocks stack vertically */
-  justify-content: center; /* vertically center if text is short */
+  flex-direction: column; 
+  justify-content: center; 
 }
 
 .services-text h2 {
@@ -256,9 +249,7 @@
   width: 100%;
   border-radius: 15px;
   object-fit: cover;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;
-  border: 3px solid var(--color-primary-blue-dark);
 }
 
 .services-images img:hover {
@@ -268,24 +259,24 @@
 
 @media (max-width: 768px) {
   .services-container {
-    flex-direction: column; /* stack vertically */
+    flex-direction: column;
     gap: 2rem;
   }
 
   .services-text {
-    order: 1; /* ensure text is on top */
+    order: 1; 
     text-align: center;
   }
 
   .services-images {
-    order: 2; /* images below */
-    flex-direction: row; /* optional: display images side by side if small enough */
+    order: 2; /* for images to be below text */
+    flex-direction: row; 
     flex-wrap: wrap;
     gap: 1rem;
   }
 
   .services-images img {
-    width: 100%; /* images full width on small screens */
+    width: 100%; 
   }
   .service-card p {}
 }
@@ -410,9 +401,7 @@
     overflow-wrap: break-word;
 }*/
 
-/*--------------------------------------------------------------
-# MOBILE FIXES
---------------------------------------------------------------*/
+/*------------------------------ mobile -------------------------------*/
 
 @media (max-width: 480px) {
 
@@ -478,12 +467,12 @@
 }
 
 .contact-info {
-    list-style: disc;       /* show bullets */
-    margin: 0 0 2rem 0;     /* directly below h3, remove auto-centering */
-    padding-left: 1.5rem;   /* standard indent for bullets */
+    list-style: disc;      
+    margin: 0 0 2rem 0;     
+    padding-left: 1.5rem;   
     color: #fff;
-    text-align: left;       /* aligns text to the left of bullets */
-    max-width: none;        /* remove width restriction on desktop */
+    text-align: left;      
+    max-width: none;       
 }
 
 .contact-info li {
@@ -521,7 +510,7 @@
   height: auto;
 }
 
-/* ------------------- Responsive ------------------- */
+/* ------------------- mobile ------------------- */
 @media (max-width: 768px) {
   .get-in-touch-container {
     flex-direction: column;
@@ -607,6 +596,15 @@
             display: flex;
             flex-direction: column;
             gap: 1rem;
+        }
+
+        .footer-contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            padding-left: 0;     
+            margin: 0;           
+            text-align: left;    
         }
 
         .contact-item {
@@ -733,4 +731,10 @@
                 justify-content: center;
             }
              } 
+
+             
+
+
+
+
         
