@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/variables.css" />
     <link rel="stylesheet" href="./css/stylesheet.css" />
     <link rel="shortcut icon" type="image/x-icon" href="./images/right-removals-logo-updated.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <style>
     * {
@@ -28,8 +29,8 @@
     }
 
     form {
-      max-width: 1200px;
-      margin: 5%;
+      max-width: 70%;
+      margin: 0 auto;
     }
 
     .form-sections-container {
@@ -68,6 +69,7 @@
       border-radius: 8px;
       border: none;
       font-family: var(--font-body);
+      background-color: var(--color-off-white);
     }
 
     textarea[name="extra_services"], textarea[name="notes"] {
@@ -115,15 +117,27 @@
     }
 
     @media (max-width: 768px) {
+
       .form-sections-container {
         flex-direction: column;
       }
+      
+      #quote-form {
+        max-width: 80%;
+      }
     }
+
+    @media (max-width: 480px) {
+      #quote-form {
+         max-width: 95%;
+      }
+    }
+
   </style>
 </head>
 <body>
 
-       <!---------------------------------- navbar -------------------------------------->
+        <!---------------------------------- navbar -------------------------------------->
 
    <nav class="navbar">
   <a href="index.html" class="logo">
@@ -132,7 +146,7 @@
 
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="services.html">Services</a></li>
+    <li><a href="index.html#services">Services</a></li>
     <li><a href="contact.html">Contact</a></li>
     <li><a href="admin.html">Log in</a></li>
     <li><a href="quote.html" class="free-quote">Free Quote</a></li>
@@ -206,7 +220,61 @@
 
 <div id="quote-result"></div>
 
+<!---------------------------------- footer -------------------------------------->
 
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-column">
+                <h3>Right Removals</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="quote.html">Quote</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    
+
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>More</h3>
+                <ul class="footer-links">
+                    <li><a href="admin.html">Log in</a></li>
+                    <li><a href="terms&conditions.html">Terms & Conditions</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                  
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h3>Contact Us</h3>
+                <div class="footer-contact-info">
+                    <div class="contact-item">
+                        <span>27 Morton Road Stratford, London E15 4AN</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>07446 833 911</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>info@right-removals.co.uk</span>
+                    </div>  
+                </div>
+                <div class="social-links">
+    <a href="https://www.facebook.com/LondonRightRemovals" class="social-link" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="https://www.instagram.com/rightremovals/" class="social-link" target="_blank">
+        <i class="fab fa-instagram"></i>
+    </a>
+</div>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            <p>A "display" website made by Erikas Petrauskas (webdev@erikaspetrauskas.com) - for Right Removals</p>
+        </div>
+    </footer>
 
 <script>
   // keys

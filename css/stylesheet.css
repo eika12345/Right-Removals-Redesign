@@ -9,6 +9,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
  body {
@@ -278,7 +279,6 @@
   .services-images img {
     width: 100%; 
   }
-  .service-card p {}
 }
 
 /*----------------------------------------------reviews------------------------------------------*/
@@ -400,6 +400,9 @@
     margin-top: 1rem;
     overflow-wrap: break-word;
 }*/
+.review-container {
+  margin: 5%;
+}
 
 /*------------------------------ mobile -------------------------------*/
 
@@ -624,7 +627,7 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #333;
+            background: var(--color-primary-blue-dark);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -634,7 +637,6 @@
         }
 
         .social-link:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             transform: translateY(-3px);
         }
 
