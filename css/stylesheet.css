@@ -738,11 +738,12 @@
        
             
             .footer-container {
-                grid-template-columns: 1fr;
-            }
-            
-            
-             } 
+              max-width: 1200px;
+              margin: 0 auto;
+              display: grid;
+              grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* <--- CHANGE HERE */
+              gap: 3rem;
+            }                  
 
              
 
